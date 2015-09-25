@@ -7,7 +7,18 @@ var indexGen = require('./indexGenerator.js');
 var genBootApp = require('./genBootApp.js');
 var moduleManager = require('./moduleManager.js');
 var stateManager = require('./stateManager.js');
+var shelljs = require('shelljs');
+var server = require('./server.js');
+var colors     = require('colors'),
+		os         = require('os'),
+    httpServer = require('./node_modules/http-server/lib/http-server'),
+    portfinder = require('portfinder'),
+opener     = require('opener');
+var open = require('open');
+var p = shelljs.exec("pwd");
 
+
+//shelljs.exec('bower install angular-ui');
 /**
 + 
 +
@@ -37,6 +48,12 @@ var stateData = {};
 
 var fs = require('fs');
 var argv = process.argv.slice(2);
+var argvx = argv.slice(3);
+
+if(argv[0]=="webstart"){
+	server.start(argv,process,os,httpServer,portfinder,opener);
+}
+
 
 /***TEST***/
 
@@ -98,6 +115,7 @@ if(argv[0] == "project"){
 	genBootApp.createFileAppJS(fs,config,module);
 	genBootApp.createFileConfJS(fs,config);
 	genBootApp.createFileConfRouteJS(fs,config);
+
 	/*process.exec('cd '+argv[1], function (err, stdout, stderr){
     	if (err) {
         	console.log("child processes failed with error code: " +

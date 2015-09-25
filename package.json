@@ -1,11 +1,19 @@
 {
   "name": "ng-make",
-  "version": "1.2.0",
+  "version": "1.2.2",
   "description": "Easy tools for create project in AngularJS",
   "main": "main.js",
   "dependencies": {
     "colors": "^1.1.2",
-    "fs": "^0.0.2"
+    "corser": "^2.0.0",
+    "ecstatic": "^1.0.1",
+    "fs": "^0.0.2",
+    "http-proxy": "^1.11.2",
+    "http-server": "^0.8.4",
+    "opener": "^1.4.1",
+    "portfinder": "^0.4.0",
+    "shelljs": "^0.5.3",
+    "union": "^0.4.4"
   },
   "bin": {
     "ng-make": "main.js"
