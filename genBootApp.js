@@ -33,7 +33,7 @@ function genModuleList(module){
 function genAppJS(config,module){
 	var jsApp;
 	var jsAnchor = "//%Anchor\n";
-	jsApp="var app = angular.module('"+config[1].appname+"',[\n"+genModuleList(module)+"\n"+jsAnchor+"])";
+	jsApp="var app = angular.module('"+config[1].appname+"',[\n'ui.router'"+genModuleList(module)+"\n"+jsAnchor+"])";
 	return jsApp;
 }
 

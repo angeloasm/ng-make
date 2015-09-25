@@ -96,7 +96,7 @@ if(argv[0] == "project"){
 	})
 	var ret = settingsMan.saveSettings(fs,config);
 	genBootApp.createFileAppJS(fs,config,module);
-	//genBootApp.createFileConfJS(fs,config);
+	genBootApp.createFileConfJS(fs,config);
 	genBootApp.createFileConfRouteJS(fs,config);
 	/*process.exec('cd '+argv[1], function (err, stdout, stderr){
     	if (err) {
