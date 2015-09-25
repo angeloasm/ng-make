@@ -1,0 +1,36 @@
+{
+  "name": "ng-make",
+  "version": "1.1.1",
+  "description": "Easy tools for create project in AngularJS",
+  "main": "main.js",
+  "dependencies": {
+    "fs": "^0.0.2"
+  },
+  "bin": {
+    "ng-make": "main.js"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "main"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/angeloasm/ng-make.git"
+  },
+  "keywords": [
+    "AngularJS",
+    "generator",
+    "makeProject",
+    "controllers",
+    "view",
+    "template",
+    "directive",
+    "ng-make generator"
+  ],
+  "author": "angelo.carraggi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/angeloasm/ng-make/issues"
+  },
+  "homepage": "https://github.com/angeloasm/ng-make#readme"
+}
