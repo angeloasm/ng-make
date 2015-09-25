@@ -96,7 +96,7 @@ if(argv[0] == "project"){
 	})
 	var ret = settingsMan.saveSettings(fs,config);
 	genBootApp.createFileAppJS(fs,config,module);
-	genBootApp.createFileConfJS(fs,config);
+	//genBootApp.createFileConfJS(fs,config);
 	genBootApp.createFileConfRouteJS(fs,config);
 	/*process.exec('cd '+argv[1], function (err, stdout, stderr){
     	if (err) {
@@ -119,13 +119,18 @@ if(argv[0] == "state"){
 	if(nameState=="-h"||nameState=="--help"||nameState=="help"){
 		
 	}else{
+		var defaultState = false;
 		var isAbstract = false;
 		argv.forEach(function(val,id){
+			
 				if(val=="abstract"){
 					isAbstract = true;
 				}
-			});
-			console.log(isAbstract);
+				if(val=="default"){
+					defaultState = true;
+				}
+		});
+		console.log(isAbstract);
 		if(isAbstract){
 			stateData.name=nameState;
 			stateData.url = "'/"+nameState+"'";
@@ -141,8 +146,15 @@ if(argv[0] == "state"){
 			
 		}
 		console.log(stateData);
-		stateManager.createNewState(fs,stateData,config,isAbstract);
-		
+		stateManager.createNewState(fs,stateData,config,isAbstract,defaultState);
+		var paths = "js/"+stateData.name+"CTRL.js";
+		indexGen.addingScriptDependency(config,paths,fs);
+		fs.open(paths,'w+',function(err,fd){
+			fs.write(fd,"app\n.controller('"+stateData.name+"CTRL',function($scope)\n\t{\n\t})");
+		});
+		fs.open("template/"+stateData.name+".html",'w+',function(err,fd){
+			
+		});		
 	}
 }
 

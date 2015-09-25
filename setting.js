@@ -18,13 +18,14 @@ exports.saveSettings = function(fs,config){
 exports.generateHTMLRequire = function(config){
 	var htmlReq = "";
 	var i=0;
+	console.log(config);
 	config.forEach(function(value,id){
 		if(id==0){
 			console.log("cai");
 		}else{
 			if(value.conf!=null){
 			htmlReq += templateRequire(value.conf)+"\n";
-			console.log(config[id]);
+			console.log(value.conf);
 		}
 		}
 	
@@ -35,6 +36,6 @@ exports.generateHTMLRequire = function(config){
 }
 
 var templateRequire = function(srcfile){
-	var linkreq = '<script type="text/javascript" src="'+'/settings/'+srcfile+'"></script>';
+	var linkreq = '<script type="text/javascript" src="'+'settings/'+srcfile+'"></script>';
 	return linkreq;
 }

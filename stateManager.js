@@ -8,7 +8,8 @@ Gli state avranno la seguente forma
 	abstract
 }
 */
-var stringNEWSTATE = "//%NEW_STATE"
+var stringNEWSTATE = "//%NEW_STATE";
+var stringDEFAULT ="//%DEFAULT_STATE";
 exports.loadState = function(fs,state){
 	var ret = fs.existsSync("state.json");
 	if(ret){
@@ -26,13 +27,28 @@ exports.saveState = function(fs,state){
 	
 }
 
-exports.createNewState = function(fs,stateData,config,isAbstract){
-	var file = fs.readFileSync(config[1].appname+'/settings/config.routes.js','utf8');
-	console.log(file);
+exports.createNewState = function(fs,stateData,config,isAbstract,defaultState){
+	
+	var file = fs.readFileSync('settings/config.routes.js','utf8');
+	
+	//console.log(file);
+	
 	var str = file.replace(stringNEWSTATE,genStateApp(stateData,isAbstract));
-	fs.open(config[1].appname+"/settings/config.routes.js",'w+',function(err,fd){
+	if(defaultState){
+		str = str.replace(stringDEFAULT,genDefaultState(stateData));
+	}
+	
+	fs.open("settings/config.routes.js",'w+',function(err,fd){
 		fs.write(fd,str);
 	})
+	
+
+	
+}
+
+function genDefaultState(stateData){
+	var jsDefault ="$urlRouterProvider.otherwise("+stateData.url+");\n";
+	return jsDefault
 }
 
 function genStateApp(state,isAbstract){
