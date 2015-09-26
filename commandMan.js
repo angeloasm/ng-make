@@ -146,13 +146,10 @@ exports.cmd = function(fs,help,settingsMan,indexGen,genBootApp,
 															
 															}
 															if(argv[1]=="install"){
-																if(argv[2]){
-																	console.log("Missing Package Name".red);
-																}else{
 																	var moduleRepo =[{}];
 																	var namePackage = argv[2];
 																	moduleManager.installModule(moduleManager,http,fs,config,indexGen,moduleRepo,namePackage,shelljs);
-																}
+																
 																
 															}
 															//console.log(!(argv[1]=="list")&&!(argv[1]=="install")&&!(argv[1]=="list-installed"));
