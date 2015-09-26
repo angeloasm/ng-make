@@ -8,6 +8,7 @@ var genBootApp = require('./genBootApp.js');
 var moduleManager = require('./moduleManager.js');
 var stateManager = require('./stateManager.js');
 var shelljs = require('shelljs');
+var md5 = require('./calcMD5.js');
 var server = require('./server.js');
 var colors     = require('colors'),
 		os         = require('os'),
@@ -41,10 +42,39 @@ var stateData = {};
 var fs = require('fs');
 var argv = process.argv.slice(2);
 
-
+/*
 commandManager.cmd(fs,help,settingsMan,indexGen,genBootApp,
 	moduleManager,stateManager,shelljs,server,colors,os,httpServer,opener,argv,
 	module,moduleData,config,dataConfig,states,stateData,portfinder,commandManager,http);
+	*/
+var options = {
+  host: 'www.angelocarraggi.altervista.org',
+  port: 80,
+  path: '/ng-make/package.json'
+};
+	
+
+	http.get(options, function(res) {
+	
+	  //console.log("Got response: " + res.statusCode);
+		//console.log("response:\n"+res.response);
+		res.setEncoding('utf8');
+		res.on('data', function (chunk) {
+			//console.log(chunk);
+			var remoteVers = md5.calcMD5(chunk);
+			var vers = fs.readFileSync('./package.json','utf8');
+			var thisVers = md5.calcMD5(vers);
+			if(remoteVers == thisVers){
+				
+			}else{
+				console.log("\n\n\n Please make update ng-make, do this on your terminal\nnpm install -g ng-make");
+			}
+						
+					})	
+				  
+	}).on('error', function(e) {
+	  console.log("Got error: " + e.message);
+	});
 /*
 	
 		var readline = require('readline');

@@ -61,12 +61,16 @@ exports.installModule = function(moduleManager,http,fs,config,indexGen,moduleRep
 						//HO IL PACCHETTO
 						//AVVIO IL DOWNLOAD 
 						shelljs.exec(repoData.installcmd);
+						if(repoData.usageName=""){
+							
+						}else{
+							var file = fs.readFileSync('settings/app.js','utf8');
+							file = file.replace("//%Anchor",","+repoData.usageName+"\n//%Anchor");
+							fs.open('settings/app.js','w+',function(err,fd){
+								fs.write(fd,file);
+							})
+						}
 						
-						var file = fs.readFileSync('settings/app.js','utf8');
-						file = file.replace("//%Anchor",","+repoData.usageName+"\n//%Anchor");
-						fs.open('settings/app.js','w+',function(err,fd){
-							fs.write(fd,file);
-						})
 	
 						indexGen.addingScriptDependency(config,repoData.path,fs);
 						
