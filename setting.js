@@ -18,14 +18,14 @@ exports.saveSettings = function(fs,config){
 exports.generateHTMLRequire = function(config){
 	var htmlReq = "";
 	var i=0;
-	console.log(config);
+	//console.log(config);
 	config.forEach(function(value,id){
 		if(id==0){
-			console.log("cai");
+			//console.log("cai");
 		}else{
 			if(value.conf!=null){
 			htmlReq += templateRequire(value.conf)+"\n";
-			console.log(value.conf);
+			//console.log(value.conf);
 		}
 		}
 	

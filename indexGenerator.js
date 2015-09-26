@@ -14,11 +14,11 @@ exports.addLinkStyle = function(){
 	
 }
 
-exports.insertDependencesConf = function(config,appname,fs,settingsMan){
+exports.insertDependencesConf = function(config,appname,fs,settingsMan,module){
 	var str = fs.readFileSync(appname+'/index.html','utf8');
-	console.log(settingsMan.generateHTMLRequire(config));
+	//console.log(settingsMan.generateHTMLRequire(config));
 	var res = str.replace("</body>", "<script src=\"https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.js\"></script>\n<script src=\"https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.15/angular-ui-router.js\"></script>\n"+settingsMan.generateHTMLRequire(config)+"\n</body>");
-	console.log(res);
+	//console.log(res);
 	fs.open(appname+"/index.html",'w+',function(err,fd){
 		fs.write(fd,res);
 	})

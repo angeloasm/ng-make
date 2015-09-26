@@ -15,7 +15,8 @@ var colors     = require('colors'),
     portfinder = require('portfinder'),
 opener     = require('opener');
 var open = require('open');
-var p = shelljs.exec("pwd");
+var commandManager = require('./commandMan')
+
 
 
 //shelljs.exec('bower install angular-ui');
@@ -48,19 +49,44 @@ var stateData = {};
 
 var fs = require('fs');
 var argv = process.argv.slice(2);
-var argvx = argv.slice(3);
 
-if(argv[0]=="webstart"){
+
+commandManager.cmd(fs,menu,settingsMan,indexGen,genBootApp,
+	moduleManager,stateManager,shelljs,server,colors,os,httpServer,opener,open,argv,
+	module,moduleData,config,dataConfig,states,stateData,portfinder);
+
+/*
+	
+		var readline = require('readline');
+
+		var rl = readline.createInterface({
+		  input: process.stdin,
+		  output: process.stdout
+		});
+
+		var prefix = 'server_$ ';
+		rl.setPrompt(prefix, prefix.length);
+		rl.prompt();
+		console.log("refresh");
+		rl.question("$ ", function(answer) {
+		  // TODO: Log the answer in a database
+		  console.log("Thank you for your valuable feedback:", answer);
+
+		  rl.close();
+		});
+	
+	*/
+/*if(argv[0]=="webstart"){
 	server.start(argv,process,os,httpServer,portfinder,opener);
 }
-
+*/
 
 /***TEST***/
 
 /**
 FUNZIONA, SERVE PER PRELEVARE I VALORI DALL'ARGV
 **/
-argv.forEach(function(val,index){
+/*argv.forEach(function(val,index){
 	switch(val){
 		case 'controller':{
 			console.log("hello");
@@ -70,13 +96,13 @@ argv.forEach(function(val,index){
 			break;
 		}
 	}
-});
+});*/
 
 /**
 prova creazione cartelle FUNZIONA!
-**/
-if(argv[0] == "project"){
-	console.log("cisono");
+*
+if(argv[0] == "project" && argv[1]){
+	
 	if(!fs.exists(argv[1])){
 		fs.mkdirSync(argv[1]);
 	}
@@ -95,16 +121,43 @@ if(argv[0] == "project"){
 	if(!fs.exists(argv[1]+"/template")){
 		fs.mkdirSync(argv[1]+"/template");
 	}
+	console.log("Created all directory for the project".green.bgBlue);
+	console.log("Download angular module".grey);
+	shelljs.exec('bower install angular');
+	
+	moduleData.name="";
+	moduleData.path='"bower_components/angular/angular.js"';
+	moduleManager.insertNewModule(moduleData,module);
+	console.log("Added to setting module "+moduleData.name.bgBlue.green);
+	
+	console.log("Download angular-ui module".grey);
+	shelljs.exec('bower install angular-ui');
+	var moduleDatas = {};
+	moduleDatas.name="'ui.router'";
+	moduleDatas.path='"bower_components/angular-ui/build/angular-ui.js"';
+	moduleManager.insertNewModule(moduleDatas,module);
+	console.log("Added to setting module "+moduleDatas.name.bgBlue.green);
+	console.log("Finish angular-ui".green.bgBlue);
+	console.log("Adding Module".grey);
+	
+	moduleManager.saveModule(fs,module,argv[1]);
+	console.log("/----Saved module----/")
+	
+	shelljs.exec('mv bower_components ./'+argv[1]+'/bower_components');
 	
 	dataConfig.appname = argv[1];
 	dataConfig.conf = 'app.js';
 	config[config.length] = dataConfig;
+	
 	var dataConfig = {};
 	dataConfig.conf = 'config.js';
 	config[config.length] = dataConfig;
+	
 	var dataConfig ={};
 	dataConfig.conf = 'config.routes.js';
+	
 	config[config.length] = dataConfig;
+	
 	var html = indexGen.createIndexInit(argv[1]);
 	
 	fs.open(argv[1]+'/index.html','w+',function(err,fd){
@@ -115,20 +168,35 @@ if(argv[0] == "project"){
 	genBootApp.createFileAppJS(fs,config,module);
 	genBootApp.createFileConfJS(fs,config);
 	genBootApp.createFileConfRouteJS(fs,config);
+	
+	
+	server.start(argv,process,os,httpServer,portfinder,opener,null,null,'./'+argv[1]);
+	var readline = require('readline');
 
-	/*process.exec('cd '+argv[1], function (err, stdout, stderr){
-    	if (err) {
-        	console.log("child processes failed with error code: " +
-            	err.code);
-    	}
-    	console.log(stdout);
-	});*/
+	var rl = readline.createInterface({
+	  input: process.stdin,
+	  output: process.stdout
+	});
+
+	sleep(1000);
+	var prefix = 'server_$ ';
+	rl.setPrompt(prefix, prefix.length);
+	rl.prompt();
+	console.log("refresh");
+	rl.question("$ ", function(answer) {
+	  // TODO: Log the answer in a database
+	  console.log("Thank you for your valuable feedback:", answer);
+
+	  rl.close();
+	});
+	
 }
-
+*/
 /**
 prova creazione state...
 **/
-console.log(argv[0]);
+//console.log(argv[0]);
+/*
 if(argv[0] == "state"){
 	console.log("cisono");
 	config = settingsMan.loadSettings(fs,config);
@@ -175,7 +243,7 @@ if(argv[0] == "state"){
 		});		
 	}
 }
-
+*/
 /*dataConfig.appname = "home";
 config[config.length] = dataConfig;
 var ret = settingsMan.saveSettings(fs,config);*/
@@ -197,6 +265,12 @@ fs.open("m.js",'w+',function(err,fd){
 });		*/
 
 
-
+function sleep(time) {
+    var stop = new Date().getTime();
+    while(new Date().getTime() < stop + time) {
+        ;
+    }
+		
+}
 
 	

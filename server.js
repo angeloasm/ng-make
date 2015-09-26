@@ -1,8 +1,8 @@
 
-			exports.start = function(argv,process,os,httpServer,portfinder,opener){
+			exports.start = function(argv,process,os,httpServer,portfinder,opener,ports,hosts,root){
 				var ifaces = os.networkInterfaces();
-				var port = argv[2] || parseInt(process.env.PORT, 9090),
-		    	host = argv[1] || 'localhost',
+				var port = ports || parseInt(process.env.PORT, 9090),
+		    	host = hosts || 'localhost',
 					proxy = argv.P || argv.proxy;
 
 					
@@ -20,7 +20,7 @@
 
 					function listen(port) {
 					  var options = {
-					    root: argv[3] || './',
+					    root: root || './',
 					    /*cache: argv.c,
 					    showDir: argv.d,
 					    autoIndex: argv.i,
@@ -37,7 +37,7 @@
 					  
 
 					  var server = httpServer.createServer(options);
-						console.log(port);
+					//	console.log(port);
 					  server.listen(port, host, function () {
 					    var canonicalHost = host === '0.0.0.0' ? '127.0.0.1' : host,
 					        protocol      = 'http:';
@@ -46,19 +46,19 @@
 					    Object.keys(ifaces).forEach(function (dev) {
 					      ifaces[dev].forEach(function (details) {
 					        if (details.family === 'IPv4') {
-					          console.log('    http://' + details.address + ':' + port.toString().green);
+					          //console.info('    http://' + details.address + ':' + port.toString().green);
 					        }
 					      });
 					    });
 
 					   
 					   
-					    if (argv.o) {
+					    
 					      opener(
 					        protocol + '//' + canonicalHost + ':' + port,
 					        { command: argv.o !== true ? argv.o : null }
 					      );
-					    }
+					    
 					  });
 					}
 
