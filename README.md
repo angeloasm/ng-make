@@ -23,6 +23,6 @@ $ ng-make project nameProject
 
 When the command is launched is install the following components:
 
-   angular .......  basic module of angularJS
-   angular-ui ......  module for the routes page 
+		angular .......  basic module of angularJS
+		angular-ui ......  module for the routes page 
    
