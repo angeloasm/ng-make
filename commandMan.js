@@ -1,9 +1,9 @@
 
 
-exports.cmd = function(fs,menu,settingsMan,indexGen,genBootApp,
+exports.cmd = function(fs,help,settingsMan,indexGen,genBootApp,
 											moduleManager,stateManager,shelljs,server,
-											colors,os,httpServer,opener,open,argv,
-											module,moduleData,config,dataConfig,states,stateData,portfinder){
+											colors,os,httpServer,opener,argv,
+											module,moduleData,config,dataConfig,states,stateData,portfinder,commandManager,http){
 												
 												switch(argv[0]){
 													
@@ -76,9 +76,9 @@ exports.cmd = function(fs,menu,settingsMan,indexGen,genBootApp,
 															genBootApp.createFileConfRouteJS(fs,config);
 	
 	
-															server.start(argv,process,os,httpServer,portfinder,opener,null,null,'./'+argv[1]);
-															console.log("***********FINISHED ALL!");
-															console.log("Now you go with terminal in "+argv[1]+" directory and use all command!")
+															//server.start(argv,process,os,httpServer,portfinder,opener,null,null,'./'+argv[1]);
+															console.log("***********FINISHED ALL!\n\n".blue);
+															console.log("Now go with the terminal into ".green+argv[1].yellow+" directory and use all command!".green);
 														}
 														else{
 															console.log("Error you need the name of project that you want create".bgWhite.red);
@@ -136,7 +136,49 @@ exports.cmd = function(fs,menu,settingsMan,indexGen,genBootApp,
 														server.start(argv,process,os,httpServer,portfinder,opener);
 														break;
 													}
+													case "module":{
+														if(help.showHelpModule(argv)==2){
+															if(argv[1]=="list"){
+															
+																var moduleRepo =[{}];
+															
+																moduleManager.listModuleRepo(http,moduleRepo,commandManager);
+															
+															}
+															if(argv[1]=="install"){
+																if(argv[2]){
+																	console.log("Missing Package Name".red);
+																}else{
+																	var moduleRepo =[{}];
+																	var namePackage = argv[2];
+																	moduleManager.installModule(moduleManager,http,fs,config,indexGen,moduleRepo,namePackage,shelljs);
+																}
+																
+															}
+															//console.log(!(argv[1]=="list")&&!(argv[1]=="install")&&!(argv[1]=="list-installed"));
+															if(!(argv[1]=="list")&&!(argv[1]=="install")&&!(argv[1]=="list-installed")){
+																//module = moduleManager.loadModule(fs,config)
+																//console.log("cisono");
+																moduleData = {};
+																moduleData.name = argv[1];
+																moduleData.usageName=""+argv[1]+"";
+																moduleData.path="js/"+argv[1]+".js";
+																moduleManager.addModule(moduleData,config,fs,indexGen);
+															}
 													
+														
+														}
+														
+														break;
+													}
 												}
 	
+}
+
+
+exports.printModulesRepository = function(moduleRepo){
+	console.log("The list of repository available are:".grey);
+	moduleRepo.forEach(function(val,id){
+		console.log(val.name.red+"-> "+val.description);
+	})
 }

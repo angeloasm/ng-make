@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-var child_process = require('child_process');
-var menu = require('./menu.js');
+
+var help = require('./help.js');
 var settingsMan = require('./setting.js');
 var indexGen = require('./indexGenerator.js');
 var genBootApp = require('./genBootApp.js');
@@ -14,47 +14,37 @@ var colors     = require('colors'),
     httpServer = require('./node_modules/http-server/lib/http-server'),
     portfinder = require('portfinder'),
 opener     = require('opener');
-var open = require('open');
-var commandManager = require('./commandMan')
+var http = require('http');
+
+var commandManager = require('./commandMan.js')
 
 
 
 //shelljs.exec('bower install angular-ui');
-/**
-+ 
-+
-**/
+
 
 //menu.show(process.argv);
 //console.log("first");
 
-/*
-Varibili usati per la configurazione del programma
-*/
+
 var config = [{}];
 var dataConfig = {};
-/**
-* Module json var
-*/
+
 var module = [{}];
 var moduleData = {};
-/**TEST
-moduleData.name='ui.router';
-module[module.length]=moduleData;**/
+
 
 var states = [{}];
 var stateData = {};
 
-//console.log(indexGen.createIndex());
 
 var fs = require('fs');
 var argv = process.argv.slice(2);
 
 
-commandManager.cmd(fs,menu,settingsMan,indexGen,genBootApp,
-	moduleManager,stateManager,shelljs,server,colors,os,httpServer,opener,open,argv,
-	module,moduleData,config,dataConfig,states,stateData,portfinder);
-
+commandManager.cmd(fs,help,settingsMan,indexGen,genBootApp,
+	moduleManager,stateManager,shelljs,server,colors,os,httpServer,opener,argv,
+	module,moduleData,config,dataConfig,states,stateData,portfinder,commandManager,http);
 /*
 	
 		var readline = require('readline');
@@ -265,12 +255,6 @@ fs.open("m.js",'w+',function(err,fd){
 });		*/
 
 
-function sleep(time) {
-    var stop = new Date().getTime();
-    while(new Date().getTime() < stop + time) {
-        ;
-    }
-		
-}
+
 
 	
