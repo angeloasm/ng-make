@@ -16,7 +16,7 @@ var colors     = require('colors'),
 opener     = require('opener');
 var http = require('http');
 
-var commandManager = require('./commandMan.js')
+var commandManager = require('./commandMan.js');
 
 
 

@@ -55,7 +55,7 @@ exports.installModule = function(moduleManager,http,fs,config,indexGen,moduleRep
 						moduleRepo.forEach(function(val,id){
 							if(namePackage == val.name){
 								repoData = val;
-								break;
+								
 							}
 						});
 						//HO IL PACCHETTO
