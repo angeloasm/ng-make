@@ -68,7 +68,7 @@ exports.installModule = function(moduleManager,http,fs,config,indexGen,moduleRep
 							fs.write(fd,file);
 						})
 	
-						indexGen.addingScriptDependency(config,moduleData.path,fs);
+						indexGen.addingScriptDependency(config,repoData.path,fs);
 						
 				  });
 	}).on('error', function(e) {
