@@ -1,10 +1,11 @@
 
 
+
 exports.cmd = function(fs,help,settingsMan,indexGen,genBootApp,
 											moduleManager,stateManager,shelljs,server,
 											colors,os,httpServer,opener,argv,
-											module,moduleData,config,dataConfig,states,stateData,portfinder,commandManager,http){
-												
+											module,moduleData,config,dataConfig,states,stateData,portfinder,commandManager,http,version,readlineSync){
+												console.log(!argv[0]);
 												switch(argv[0]){
 													
 													case "project":{
@@ -27,30 +28,32 @@ exports.cmd = function(fs,help,settingsMan,indexGen,genBootApp,
 															if(!fs.exists(argv[1]+"/template")){
 																fs.mkdirSync(argv[1]+"/template");
 															}
-															console.log("Created all directory for the project".green.bgBlue);
+															console.log("[ OK ]".white+"Created all directory for the project".green.bgBlue);
 															console.log("Download angular module".grey);
 															shelljs.exec('bower install angular');
 	
-															moduleData.name="";
+															moduleData.usageName="";
+															moduleData.name="angular";
 															moduleData.path='"bower_components/angular/angular.js"';
 															moduleManager.insertNewModule(moduleData,module);
-															console.log("Added to setting module "+moduleData.name.bgBlue.green);
+															console.log("[ OK ]".bgGreen.white+"Added to setting module "+moduleData.name.bgBlue.green);
 	
 															console.log("Download angular-ui module".grey);
 															shelljs.exec('bower install angular-ui');
 															var moduleDatas = {};
-															moduleDatas.name="'ui.router'";
+															moduleDatas.usageName="'ui.router'";
+															moduleDatas.name = "angular-ui-router";
 															moduleDatas.path='"bower_components/angular-ui/build/angular-ui.js"';
 															moduleManager.insertNewModule(moduleDatas,module);
-															console.log("Added to setting module "+moduleDatas.name.bgBlue.green);
-															console.log("Finish angular-ui".green.bgBlue);
+															console.log("[ OK ]".bgGreen.white+"Added to setting module "+moduleDatas.name.bgBlue.green);
+															console.log("[ OK ]".bgGreen.white+"Finish angular-ui".green.bgBlue);
 															console.log("Adding Module".grey);
 	
 															moduleManager.saveModule(fs,module,argv[1]);
 															console.log("/----Saved module----/")
-	
+															console.log("Configuring your components");
 															shelljs.exec('mv bower_components ./'+argv[1]+'/bower_components');
-	
+															console.log("Create the configuration for this AngularJS App".grey);
 															dataConfig.appname = argv[1];
 															dataConfig.conf = 'app.js';
 															config[config.length] = dataConfig;
@@ -65,20 +68,19 @@ exports.cmd = function(fs,help,settingsMan,indexGen,genBootApp,
 															config[config.length] = dataConfig;
 	
 															var html = indexGen.createIndexInit(argv[1]);
-	
+															
 															fs.open(argv[1]+'/index.html','w+',function(err,fd){
 																fs.write(fd,html);
 																indexGen.insertDependencesConf(config,argv[1],fs,settingsMan);
 															})
+															console.log("[ OK ]".bgGreen.white+"Complete your configuration");
 															var ret = settingsMan.saveSettings(fs,config);
 															genBootApp.createFileAppJS(fs,config,module);
 															genBootApp.createFileConfJS(fs,config);
 															genBootApp.createFileConfRouteJS(fs,config);
-	
-	
-															//server.start(argv,process,os,httpServer,portfinder,opener,null,null,'./'+argv[1]);
+															console.log("[ OK ]".bgGreen.white+"All file has been initializated");
 															console.log("***********FINISHED ALL!\n\n".blue);
-															console.log("Now go with the terminal into ".green+argv[1].yellow+" directory and use all command!".green);
+															console.log("Now go with the terminal into ".green+argv[1].yellow+" with: cd "+argv[1].yellow+"directory and use all command you need!".green);
 														}
 														else{
 															console.log("Error you need the name of project that you want create".bgWhite.red);
@@ -133,7 +135,16 @@ exports.cmd = function(fs,help,settingsMan,indexGen,genBootApp,
 														break;
 													}
 													case "webstart":{
+														help.showWebStart();
 														server.start(argv,process,os,httpServer,portfinder,opener);
+														var exit = false;
+														setTimeout(function(){
+														/*	command(fs,help,settingsMan,indexGen,genBootApp,
+											moduleManager,stateManager,shelljs,server,
+											colors,os,httpServer,opener,argv,
+											module,moduleData,config,dataConfig,states,stateData,portfinder,commandManager,http,version,readlineSync);*/
+														},100)
+													
 														break;
 													}
 													case "module":{
@@ -152,6 +163,9 @@ exports.cmd = function(fs,help,settingsMan,indexGen,genBootApp,
 																
 																
 															}
+															if(argv[1]=="list-installed"){
+																moduleManager.listInstalled(moduleManager,fs);
+															}
 															//console.log(!(argv[1]=="list")&&!(argv[1]=="install")&&!(argv[1]=="list-installed"));
 															if(!(argv[1]=="list")&&!(argv[1]=="install")&&!(argv[1]=="list-installed")){
 																//module = moduleManager.loadModule(fs,config)
@@ -161,6 +175,7 @@ exports.cmd = function(fs,help,settingsMan,indexGen,genBootApp,
 																moduleData.usageName=""+argv[1]+"";
 																moduleData.path="js/"+argv[1]+".js";
 																moduleManager.addModule(moduleData,config,fs,indexGen);
+																moduleManager.saveNewModule(fs,moduleData);
 															}
 													
 														
@@ -168,14 +183,50 @@ exports.cmd = function(fs,help,settingsMan,indexGen,genBootApp,
 														
 														break;
 													}
+													default :{
+														help.showGeneralHelp(argv,version);
+													}
 												}
+											
 	
 }
-
+exports.cmdServer=function(argv){
+	if(argv[0]=="")
+	console.log(argv);
+}
 
 exports.printModulesRepository = function(moduleRepo){
 	console.log("The list of repository available are:".grey);
 	moduleRepo.forEach(function(val,id){
 		console.log(val.name.red+"-> "+val.description);
 	})
+}
+
+
+
+function command(fs,help,settingsMan,indexGen,genBootApp,
+											moduleManager,stateManager,shelljs,server,
+											colors,os,httpServer,opener,argv,
+											module,moduleData,config,dataConfig,states,stateData,portfinder,commandManager,http,version,readlineSync){
+	
+	var userName = readlineSync.question('May I have your name? :');
+	//console.log('Hi ' + userName + '!');
+	var argv=[];
+	var argv = userName.split(" ");
+	// Handle the secret text (e.g. password).
+	
+	commandManager.cmd(fs,help,settingsMan,indexGen,genBootApp,
+											moduleManager,stateManager,shelljs,server,
+											colors,os,httpServer,opener,argv,
+		module,moduleData,config,dataConfig,states,stateData,portfinder,commandManager,http,version,readlineSync);
+	if(userName=="exit"){
+		return 0;
+	}else{
+		setTimeout(function(){
+			command(fs,help,settingsMan,indexGen,genBootApp,
+											moduleManager,stateManager,shelljs,server,
+											colors,os,httpServer,opener,argv,
+											module,moduleData,config,dataConfig,states,stateData,portfinder,commandManager,http,version,readlineSync);
+		},100);
+	}
 }

@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-
+var version = "1.3.10";
 
 var help = require('./help.js');
 var settingsMan = require('./setting.js');
@@ -18,6 +18,7 @@ opener     = require('opener');
 var http = require('http');
 
 var commandManager = require('./commandMan.js');
+var readlineSync = require('readline-sync');
 
 
 
@@ -42,32 +43,39 @@ var stateData = {};
 var fs = require('fs');
 var argv = process.argv.slice(2);
 
-/*
+shelljs.exec("clear");
 commandManager.cmd(fs,help,settingsMan,indexGen,genBootApp,
 	moduleManager,stateManager,shelljs,server,colors,os,httpServer,opener,argv,
-	module,moduleData,config,dataConfig,states,stateData,portfinder,commandManager,http);
-	*/
+	module,moduleData,config,dataConfig,states,stateData,portfinder,commandManager,http,version,readlineSync);
+	
+	/*var userName = readlineSync.question('May I have your name? :');
+	console.log('Hi ' + userName + '!');
+
+	// Handle the secret text (e.g. password). 
+	var favFood = readlineSync.question('What is your favorite food? :', {
+	  hideEchoBack: true // The typed text on screen is hidden by `*` (default). 
+	});
+	console.log('Oh, ' + userName + ' loves ' + favFood + '!');*/
+	
 var options = {
   host: 'www.angelocarraggi.altervista.org',
   port: 80,
-  path: '/ng-make/package.json'
+  path: '/ng-make/version.php'
 };
 	
 
 	http.get(options, function(res) {
 	
-	  //console.log("Got response: " + res.statusCode);
-		//console.log("response:\n"+res.response);
+	  
 		res.setEncoding('utf8');
 		res.on('data', function (chunk) {
-			//console.log(chunk);
 			var remoteVers = md5.calcMD5(chunk);
-			var vers = fs.readFileSync('./package.json','utf8');
-			var thisVers = md5.calcMD5(vers);
+			
+			var thisVers = md5.calcMD5(version);
 			if(remoteVers == thisVers){
 				
 			}else{
-				console.log("\n\n\n Please make update ng-make, do this on your terminal\nnpm install -g ng-make");
+				console.log("\n\n\n Please make update ng-make, do this on your terminal\n"+"npm install -g ng-make".yellow);
 			}
 						
 					})	

@@ -5,6 +5,8 @@ ng-make
 The ng-make command line utility makes it easy to make all with AngularJS.
 This command help you to manage your project without edit the route and the app configuration files.
 Use the `ng-make --help` command for more detailed task information.
+##### Free for all!
+If you want to add a new module into the repository of ng-make, go to this(http://www.angelocarraggi.altervista.org/ng-make) and you can add your module into ng-make repository.
 
 ## Installing
 
@@ -30,17 +32,17 @@ The structure of the project created with this command will be:
 
 		appName/
 				|
-				|_css/
+				|_css/ ( for the css style in your app)
 				|
-				|_js/
+				|_js/ ( js module required by the app)
 				|
-				|_template/
+				|_template/ (The view that you can be used)
 				|
-				|_img/
+				|_img/ ( the image directory for your app )
 				|
-				|_bower_components/
+				|_bower_components/ (all components module)
 				|
-				|_settings/
+				|_settings/ ( settings for your application )
 				|			|
 				|			|_app.js
 				|			|
@@ -48,9 +50,9 @@ The structure of the project created with this command will be:
 				|			|
 				|			|_config.routes.js
 				|
-				|_module.json
+				|_module.json ( important file for the module installed in ng-make )
 				|
-				|_settings.conf
+				|_settings.conf ( important file for the settings of ng-make )
 
 ## Create your state in one command
 
@@ -80,5 +82,35 @@ $ ng-make webstart [host] [port] [rootPoint]]
 	 - "localhost" as host
 	 - "port" as 9090
 	 - "rootPoint" as "./"
-	  
+	 
+	 
+## Integration Module in your Angular App
+
+With ng-make you can install the new module in your angular app or install it from the repository available.
+Typically you use this command as:
+
+```bash
+$ ng-make module [install|list|list-installed] nameOfNewModule [options]
+```
+
+The available keywords can be used like below:
+
+`ng-make module install nameOfAvailablePackage`
+
+With this command you add the `nameOfAvailablePackage` in your angular project.
+For obtain the list of available package in ng-make, you can run this command:
+
+```bash
+$ ng-make module list
+```
+
+For obtain the list of install modules in your angular app you can run this:
+
+```bash
+$ ng-make module list-installed
+```
+
+	 
+	 
+	  	  
 

@@ -9,7 +9,7 @@ module format
 }
 **/
 
-exports.loadModule = function(fs,config){
+exports.loadModule = function(fs){
 	var ret = fs.existsSync("module.json");
 	if(ret){
 		return JSON.parse(fs.readFileSync('module.json', 'utf8'));
@@ -26,6 +26,12 @@ exports.saveModule = function(fs,module,app){
 	
 }
 
+exports.saveNewModule = function(fs,module){
+ 	fs.open("./module.json",'w+',function(err,fd){
+ 		fs.write(fd,JSON.stringify(module));
+ 	})
+}
+
 exports.insertNewModule = function(moduleData,module){
 	
 	var newModule = {};
@@ -34,8 +40,7 @@ exports.insertNewModule = function(moduleData,module){
 	
 }
 //moduleManager.installModule(moduleManager,http,fs,config,indexGen);
-exports.installModule = function(moduleManager,http,fs,config,indexGen,moduleRepo,namePackage,shelljs)
-{
+exports.installModule = function(moduleManager,http,fs,config,indexGen,moduleRepo,namePackage,shelljs){
 	var options = {
 	  host: 'www.angelocarraggi.altervista.org',
 	  port: 80,
@@ -52,12 +57,17 @@ exports.installModule = function(moduleManager,http,fs,config,indexGen,moduleRep
 				   
 						moduleRepo=JSON.parse(chunk);
 						var repoData = {};
+						var i=0;
 						moduleRepo.forEach(function(val,id){
 							if(namePackage == val.name){
 								repoData = val;
-								
+								i++;
 							}
 						});
+						if(i==0){
+							console.log('This package name doesn\'t exists view all package with: \'ng-make module list\'');
+							return 0;
+						}
 						//HO IL PACCHETTO
 						//AVVIO IL DOWNLOAD 
 						shelljs.exec(repoData.installcmd);
@@ -73,6 +83,9 @@ exports.installModule = function(moduleManager,http,fs,config,indexGen,moduleRep
 						
 	
 						indexGen.addingScriptDependency(config,repoData.path,fs);
+						var module = moduleManager.loadModule(fs);
+						module[module.length]=repoData;
+						moduleManager.saveNewModule(fs,module);
 						
 				  });
 	}).on('error', function(e) {
@@ -121,4 +134,22 @@ exports.listModuleRepo = function(http,moduleRepo,cmdMan){
 	}).on('error', function(e) {
 	  console.log("Got error: " + e.message);
 	});
+}
+
+exports.listInstalled = function(moduleManager,fs){
+	
+	console.log( "██╗███╗   ██╗███████╗████████╗ █████╗ ██╗     ██╗     ███████╗██████╗     ███╗   ███╗ ██████╗ ██████╗ ██╗   ██╗██╗     ███████╗");
+	console.log( "██║████╗  ██║██╔════╝╚══██╔══╝██╔══██╗██║     ██║     ██╔════╝██╔══██╗    ████╗ ████║██╔═══██╗██╔══██╗██║   ██║██║     ██╔════╝");
+	console.log( "██║██╔██╗ ██║███████╗   ██║   ███████║██║     ██║     █████╗  ██║  ██║    ██╔████╔██║██║   ██║██║  ██║██║   ██║██║     █████╗  ");
+	console.log( "██║██║╚██╗██║╚════██║   ██║   ██╔══██║██║     ██║     ██╔══╝  ██║  ██║    ██║╚██╔╝██║██║   ██║██║  ██║██║   ██║██║     ██╔══╝  ");
+	console.log( "██║██║ ╚████║███████║   ██║   ██║  ██║███████╗███████╗███████╗██████╔╝    ██║ ╚═╝ ██║╚██████╔╝██████╔╝╚██████╔╝███████╗███████╗");
+	console.log( "╚═╝╚═╝  ╚═══╝╚══════╝   ╚═╝   ╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝╚═════╝     ╚═╝     ╚═╝ ╚═════╝ ╚═════╝  ╚═════╝ ╚══════╝╚══════╝");
+	console.log( "                                                                                                                               ");
+	var module = moduleManager.loadModule(fs);
+	module.forEach(function(val,id){
+		if(id!=0){
+			console.log(val.name);
+		}
+	})
+	
 }

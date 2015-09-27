@@ -1,6 +1,6 @@
 {
   "name": "ng-make",
-  "version": "1.3.5",
+  "version": "1.3.24",
   "description": "Easy tools for create project in AngularJS",
   "main": "main.js",
   "dependencies": {
@@ -13,6 +13,7 @@
     "http-server": "^0.8.4",
     "opener": "^1.4.1",
     "portfinder": "^0.4.0",
+    "readline-sync": "^1.2.21",
     "shelljs": "^0.5.3",
     "union": "^0.4.4"
   },
@@ -30,12 +31,22 @@
   "keywords": [
     "AngularJS",
     "generator",
-    "makeProject",
+    "project",
     "controllers",
     "view",
     "template",
     "directive",
-    "ng-make generator"
+    "ng-make generator",
+    "angular js generator",
+    "project easy",
+    "state angular js generator",
+    "state generator",
+    "app.js generator",
+    "route generator",
+    "route angular js",
+    "web server angularjs",
+    "ng-make server",
+    "web server angular"
   ],
   "author": "angelo.carraggi",
   "license": "ISC",

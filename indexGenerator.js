@@ -26,7 +26,7 @@ exports.insertDependencesConf = function(config,appname,fs,settingsMan,module){
 
 exports.addingScriptDependency = function(config,path,fs){
 	var fileIndex = fs.readFileSync("index.html",'utf8');
-	var res = fileIndex.replace("</body>","<script type=\"text/javascript\" src=\""+path+"\"></script>");
+	var res = fileIndex.replace("</body>","<script type=\"text/javascript\" src=\""+path+"\"></script>\n\t</body>");
 	fs.open("index.html",'w+',function(err,fd){
 		fs.write(fd,res);
 	})
