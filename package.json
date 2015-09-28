@@ -1,6 +1,6 @@
 {
   "name": "ng-make",
-  "version": "1.7.2",
+  "version": "1.7.4",
   "description": "Easy tools for create project in AngularJS",
   "main": "main.js",
   "dependencies": {

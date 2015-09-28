@@ -1,13 +1,23 @@
 
 ng-make cli
 =========
-####Version 1.7.1 
+
+![alt tag](http://www.angelocarraggi.altervista.org/ng-make/img/ng-makelogo.png)
+####Version 1.7.4
+
+
 `Adding livereload at webstart keywords also you can run the typical command of ng-make, fix about more keywords such as module state and project`
-=============
+
+
+
 ###Short Description
+
+
 The ng-make command line utility makes it easy to make all with AngularJS.
 This command help you to manage your project without edit the route and the app configuration files.
 Use the `ng-make --help` command for more detailed task information.
+
+
 ##### Free for all!
 If you want to add a new module into the repository of ng-make, go to this(http://www.angelocarraggi.altervista.org/ng-make) and you can add your module into ng-make repository.
 

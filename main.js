@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-var version = "1.7.2";
+var version = "1.7.3";
 
 var help = require('./help.js');
 var settingsMan = require('./setting.js');
