@@ -14,14 +14,14 @@ function genModuleList(module){
 	var i=0;
 	module.forEach(function(val,id){
 		if(id!=0){
-			//console.log(id);
 			if(!val.name){
 				
 			}else{
 				//console.log(val.name);
 				if(i==0){
-					if(val.name !=" "){
-						list += val.name;
+					if(val.usageName !=""){
+						//console.log(val);
+						list += val.usageName;
 						i++;
 					}
 				

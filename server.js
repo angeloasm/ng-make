@@ -1,5 +1,4 @@
-
-			exports.start = function(argv,process,os,httpServer,portfinder,opener,ports,hosts,root){
+exports.start = function(argv,process,os,httpServer,portfinder,opener,ports,hosts,root){
 				var ifaces = os.networkInterfaces();
 				var port = ports || parseInt(process.env.PORT, 9090),
 		    	host = hosts || 'localhost',

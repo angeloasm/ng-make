@@ -1,7 +1,10 @@
 
-ng-make
+ng-make cli
 =========
-
+####Version 1.7.1 
+`Adding livereload at webstart keywords also you can run the typical command of ng-make, fix about more keywords such as module state and project`
+=============
+###Short Description
 The ng-make command line utility makes it easy to make all with AngularJS.
 This command help you to manage your project without edit the route and the app configuration files.
 Use the `ng-make --help` command for more detailed task information.

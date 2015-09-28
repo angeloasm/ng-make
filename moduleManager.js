@@ -40,11 +40,11 @@ exports.insertNewModule = function(moduleData,module){
 	
 }
 //moduleManager.installModule(moduleManager,http,fs,config,indexGen);
-exports.installModule = function(moduleManager,http,fs,config,indexGen,moduleRepo,namePackage,shelljs){
+exports.installModule = function(moduleManager,http,fs,config,indexGen,moduleRepo,namePackage,shelljs,cssGen){
 	var options = {
 	  host: 'www.angelocarraggi.altervista.org',
 	  port: 80,
-	  path: '/ng-make/index.php'
+	  path: '/ng-make/module.php'
 	};
 	
 
@@ -68,21 +68,38 @@ exports.installModule = function(moduleManager,http,fs,config,indexGen,moduleRep
 							console.log('This package name doesn\'t exists view all package with: \'ng-make module list\'');
 							return 0;
 						}
-						//HO IL PACCHETTO
-						//AVVIO IL DOWNLOAD 
-						shelljs.exec(repoData.installcmd);
+						var installcmd = repoData.installcmd;
+						var arrCmd = installcmd.split(','); //FOR MORE COMMAND IN THE PACKAGE
+						arrCmd.forEach(function(val,id){
+							shelljs.exec(val);
+						})
+						//shelljs.exec(repoData.installcmd);
 						if(repoData.usageName=""){
 							
 						}else{
-							var file = fs.readFileSync('settings/app.js','utf8');
-							file = file.replace("//%Anchor",","+repoData.usageName+"\n//%Anchor");
-							fs.open('settings/app.js','w+',function(err,fd){
-								fs.write(fd,file);
+							var usageName = repoData.usageName;
+							var arrUsageName = usageName.split(',');//FOR MORE USAGENAME IN THE PACKAGE
+							arrUsageName.forEach(function(val,id){
+								var file = fs.readFileSync('settings/app.js','utf8');
+								file = file.replace("//%Anchor",","+val+"\n//%Anchor");
+								fs.open('settings/app.js','w+',function(err,fd){
+									fs.write(fd,file);
+								})
 							})
+							
 						}
 						
-	
-						indexGen.addingScriptDependency(config,repoData.path,fs);
+						var pathjs = repoData.pathjs;
+						var arrPathJS = pathjs.split(',');
+						arrPathJS.forEach(function(val,id){
+							indexGen.addingScriptDependency(config,val,fs);
+						})
+						
+						var pathcss = repoData.pathcss;
+						var arrPathCSS = pathcss.split(',');
+						arrPathCSS.forEach(function(val,id){
+							indexGen.addingCSSDependency(val,fs);
+						})
 						var module = moduleManager.loadModule(fs);
 						module[module.length]=repoData;
 						moduleManager.saveNewModule(fs,module);
@@ -116,7 +133,7 @@ exports.listModuleRepo = function(http,moduleRepo,cmdMan){
 	var options = {
 	  host: 'www.angelocarraggi.altervista.org',
 	  port: 80,
-	  path: '/ng-make/index.php'
+	  path: '/ng-make/module.php'
 	};
 	
 

@@ -1,13 +1,4 @@
-/**INFO**
-Gli state avranno la seguente forma 
-{
-	nome,
-	url,
-	templateUrl,
-	controller,
-	abstract
-}
-*/
+
 var stringNEWSTATE = "//%NEW_STATE";
 var stringDEFAULT ="//%DEFAULT_STATE";
 exports.loadState = function(fs,state){
